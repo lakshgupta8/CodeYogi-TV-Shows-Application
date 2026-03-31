@@ -9,12 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@redux-devtools/extension": "^4.0.0",
     "axios": "^1.14.0",
+    "html-react-parser": "^5.2.17",
+    "immer": "^11.1.4",
+    "normalizr": "^3.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^4.12.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^6.30.3",
-    "redux": "^4.2.1",
+    "redux": "^5.0.1",
+    "redux-saga": "^1.4.2",
     "reselect": "^4.1.8"
   },
   "devDependencies": {
