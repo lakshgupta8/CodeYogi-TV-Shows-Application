@@ -11,20 +11,22 @@ const placeholderImage = "https://images.unsplash.com/photo-1560169897-fc0cdbdfa
 
 const ShowCard: FC<ShowCardProps> = ({ show }) => {
   return (
-    <div className="shadow-md m-1 p-2 rounded-md max-w-xs">
+    <div className="bg-neutral-900 border border-neutral-800 shadow-xl m-1 rounded-xl w-full max-w-xs overflow-hidden hover:scale-105 transition-transform duration-300 flex flex-col h-full">
       <img
         src={show.image?.medium || placeholderImage}
         alt={show.name}
-        className="rounded-t-md w-full h-72 object-center object-contain"
+        className="w-full h-80 object-cover border-b border-neutral-800"
       />
-      <div className="flex flex-col justify-between space-y-8 p-6">
+      <div className="flex flex-col flex-1 justify-between p-5 space-y-4">
         <div className="space-y-2">
-          <h2 className="font-semibold tracking-wide texts-3xl">{show.name}</h2>
-          {parse(show.summary || "")}
+          <h2 className="font-bold text-xl text-stone-100 line-clamp-1" title={show.name}>{show.name}</h2>
+          <div className="text-stone-400 text-sm line-clamp-3 prose prose-invert">
+            {parse(show.summary || "No summary available")}
+          </div>
         </div>
         <Link
           to={`/show/${show.id}`}
-          className="flex justify-center items-center p-3 rounded-md w-full font-semibold tracking-wide"
+          className="flex justify-center items-center py-2.5 px-4 bg-amber-900 hover:bg-amber-800 text-amber-50 rounded-lg w-full font-semibold tracking-wide transition-colors"
         >
           View Details
         </Link>

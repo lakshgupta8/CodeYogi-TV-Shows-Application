@@ -9,6 +9,7 @@ import CastCard from "../Components/CastCard";
 import GenrePill from "../Components/GenrePill";
 import withRouter, { type WithRouterProps } from "../HOCs/withRouter";
 import type { Show } from "../Models/shows";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 type ShowDetailPageProps = {
   show: Show;
@@ -27,37 +28,50 @@ const ShowDetailPage: FC<ShowDetailPageProps> = ({
   }, [showId]);
 
   if (!show) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner className="mx-auto" />;
   }
 
   return (
-    <div className="mt-2">
-      <button className="bg-gray-700 px-4 py-2 rounded-md text-white">
-        <Link to="/">Back</Link>
-      </button>
-      <h2 className="font-semibold text-4xl tracking-wide">{show.name}</h2>
-      <div className="flex space-x-3 bg-gray-300 my-2 p-2 rounded-sm">
-        {show.genres.map((genre) => (
-          <GenrePill name={genre} key={genre} />
-        ))}
+    <div className="flex flex-col space-y-8 mt-6 pb-10 animate-fade-in">
+      <div>
+        <button className="flex items-center bg-neutral-800 hover:bg-neutral-700 px-4 py-2 border border-neutral-700 rounded-lg font-semibold text-stone-300 text-sm tracking-wide transition-colors">
+          <Link to="/" className="flex items-center gap-2">
+            <span>&larr;</span> Back to Results
+          </Link>
+        </button>
       </div>
-      <div className="flex mt-2">
+
+      <div className="flex md:flex-row flex-col items-start gap-8">
         <img
           src={show.image?.medium || "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
-          alt=""
-          className="rounded-t-md w-[210px] h-[295px] object-center object-cover"
+          alt={show.name}
+          className="shadow-2xl mx-auto md:mx-0 border border-neutral-800 rounded-xl w-full max-w-[280px] h-auto object-cover"
         />
-        <div className="ml-2">
-          <div>{parse(show.summary || "")}</div>
-          <p className="mt-2 px-2 py-1 border border-gray-700 rounded-md max-w-max font-bold text-lg">
-            Rating: <span className="text-gray-700">{show.rating.average}/10</span>
-          </p>
+
+        <div className="flex flex-col flex-1 space-y-6">
+          <div className="space-y-4">
+            <h2 className="font-extrabold text-white text-4xl tracking-tight">{show.name}</h2>
+
+            <div className="flex flex-wrap gap-2">
+              {show.genres.map((genre) => (
+                <GenrePill name={genre} key={genre} />
+              ))}
+            </div>
+
+            <p className="inline-flex items-center gap-2 bg-amber-900 shadow-sm px-3 py-1 border border-amber-800 rounded-md font-bold text-amber-100">
+              <span>★</span> {show.rating.average ? `${show.rating.average} / 10` : 'N/A'}
+            </p>
+          </div>
+
+          <div className="prose-invert max-w-none text-stone-300 prose-a:text-amber-500 text-lg leading-relaxed prose">
+            {parse(show.summary || "No summary available.")}
+          </div>
         </div>
       </div>
 
-      <div className="mt-2">
-        <h4 className="font-semibold text-2xl tracking-wide">Cast</h4>
-        <div className="flex flex-wrap">
+      <div className="pt-8 border-neutral-800 border-t">
+        <h4 className="mb-6 font-bold text-stone-100 text-2xl tracking-wide">Top Cast</h4>
+        <div className="flex flex-wrap justify-center sm:justify-start gap-4">
           <CastCard
             avatarLink="https://static.tvmaze.com/uploads/images/medium_portrait/218/545468.jpg"
             name="Henry Cavill"
