@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import ShowDetailPage from "./Pages/ShowDetails.Page";
-import ShowListPage from "./Pages/ShowsList.Page";
+import ShowDetailPage from "./Pages/ShowDetailsPage";
+import ShowListPage from "./Pages/ShowsListPage";
 
 function App() {
   return (
     <div className="mx-auto max-w-5xl">
       <Routes>
         <Route path="/" element={<ShowListPage />} />
-        <Route path="show/:show_id" element={<ShowDetailPage />} />
+        <Route path="show/:showId" element={<ShowDetailPage />} />
       </Routes>
     </div>
   );

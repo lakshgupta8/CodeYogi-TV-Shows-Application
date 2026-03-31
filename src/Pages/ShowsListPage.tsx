@@ -10,7 +10,6 @@ import { showsSelector, querySelector } from "../Selectors/shows";
 interface ShowListPageProps {
   shows: Show[];
   query: string;
-  showsLoaded: (shows: Show[]) => void;
   queryChange: (query: string) => void;
 }
 
