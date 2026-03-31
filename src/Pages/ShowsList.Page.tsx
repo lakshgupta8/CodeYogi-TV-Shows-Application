@@ -1,9 +1,8 @@
-import { useEffect, type FC } from "react";
+import { type FC } from "react";
 import SearchBar from "../Components/SearchBar";
 import ShowCard from "../Components/ShowCard";
-import { fetchShowList } from "../api";
 import type { Show } from "../Models/shows";
-import { queryChangeAction, showsLoadedAction } from "../Actions/shows";
+import { queryChangeAction } from "../Actions/shows";
 import { connect } from "react-redux";
 import type { State } from "../store";
 import { showsSelector, querySelector } from "../Selectors/shows";
@@ -18,21 +17,12 @@ interface ShowListPageProps {
 const ShowListPage: FC<ShowListPageProps> = ({
   shows,
   query,
-  showsLoaded,
   queryChange
 }) => {
-  useEffect(() => {
-    fetchShowList(query).then((data: Show[]) => showsLoaded(data));
-  }, [query]);
-
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    queryChange(e.target.value);
-  };
-
   return (
     <div className="mt-2">
       <SearchBar
-        onChange={handleQueryChange}
+        onChange={(e) => queryChange(e.target.value)}
         value={query}
       />
       <div className="flex flex-wrap justify-center">
@@ -50,7 +40,6 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
-  showsLoaded: showsLoadedAction,
   queryChange: queryChangeAction,
 };
 
