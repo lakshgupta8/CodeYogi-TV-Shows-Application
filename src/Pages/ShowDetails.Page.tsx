@@ -1,12 +1,14 @@
 import { type FC } from "react";
 import CastCard from "../Components/CastCard";
 import GenrePill from "../Components/GenrePill";
-import withRouter, { type WithRouterProps } from "../hocs/withRouter";
+import withRouter, { type WithRouterProps } from "../HOCs/withRouter";
+import { Link } from "react-router-dom";
 
 const ShowDetailPage: FC<WithRouterProps> = ({ params }) => {
   console.log(params);
   return (
     <div className="mt-2">
+      <button className="bg-gray-700 px-4 py-2 rounded-md text-white"><Link to="/">Back</Link></button>
       <h2 className="font-semibold text-4xl tracking-wide">The Witcher</h2>
       <div className="flex space-x-3 bg-gray-300 my-2 p-2 rounded-sm">
         <GenrePill name="Action" />
