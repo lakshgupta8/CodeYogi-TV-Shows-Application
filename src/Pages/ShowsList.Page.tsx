@@ -9,20 +9,24 @@ import type { State } from "../store";
 import { showsSelector, querySelector } from "../Selectors/shows";
 
 interface ShowListPageProps {
-  showsLoaded: (shows: Show[]) => void;
   shows: Show[];
   query: string;
+  showsLoaded: (shows: Show[]) => void;
+  queryChange: (query: string) => void;
 }
 
-const ShowListPage: FC<ShowListPageProps> = ({ showsLoaded, shows, query }) => {
+const ShowListPage: FC<ShowListPageProps> = ({
+  shows,
+  query,
+  showsLoaded,
+  queryChange
+}) => {
   useEffect(() => {
-    fetchShowList(query).then((data: Show[]) => {
-      showsLoaded(data);
-    });
+    fetchShowList(query).then((data: Show[]) => showsLoaded(data));
   }, [query]);
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
+    queryChange(e.target.value);
   };
 
   return (

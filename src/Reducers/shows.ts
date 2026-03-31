@@ -1,6 +1,6 @@
 import { type Action } from "../Actions";
 import { produce } from "immer";
-import { SHOWS_LOADED } from "../Actions/shows";
+import { QUERY_CHANGE, SHOWS_LOADED } from "../Actions/shows";
 import type { Show } from "../Models/shows";
 import { schema, normalize } from "normalizr";
 
@@ -15,19 +15,23 @@ const initialState = {
 };
 
 const showsReducer = (state: State = initialState, action: Action): State => {
-  if (action.type === SHOWS_LOADED) {
-    return produce(state, (draft) => {
-      const shows = action.payload.shows as Show[];
-      const query = action.payload.query as string;
+  switch (action.type) {
+    case SHOWS_LOADED:
+      return produce(state, (draft) => {
+        const shows = action.payload as Show[];
 
-      const showsSchema = new schema.Entity("shows");
-      const normalizedData = normalize(shows, [showsSchema]);
+        const showsSchema = new schema.Entity("shows");
+        const normalizedData = normalize(shows, [showsSchema]);
 
-      draft.shows = { ...draft.shows, ...normalizedData.entities.shows };
-      draft.query = query;
-    });
+        draft.shows = normalizedData.entities.shows || {};
+      });
+    case QUERY_CHANGE:
+      return produce(state, (draft) => {
+        draft.query = action.payload;
+      });
+    default:
+      return state;
   }
-  return state;
 };
 
 export default showsReducer;
