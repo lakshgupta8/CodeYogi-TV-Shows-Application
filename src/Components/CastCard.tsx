@@ -8,9 +8,9 @@ const CastCard = ({
   name: string;
 }) => {
   return (
-    <div className="p-1 m-1">
-      <img className="w-28 rounded-sm" src={avatarLink} alt="" />
-      <p className="text-gray-500 font-semibold">{name}</p>
+    <div className="flex flex-col items-center bg-neutral-900 border border-neutral-800 rounded-lg p-3 m-2 shadow-lg w-28 hover:scale-105 transition-transform duration-300">
+      <img className="w-20 h-20 rounded-full object-cover mb-3" src={avatarLink} alt={name} />
+      <p className="text-stone-300 font-medium text-sm text-center leading-tight">{name}</p>
     </div>
   );
 };

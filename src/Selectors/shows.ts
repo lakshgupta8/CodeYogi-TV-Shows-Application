@@ -17,3 +17,8 @@ export const querySelector = createSelector(
     showsStateSelector,
     (state) => state.query
 );
+
+export const showDetailSelector = (showId: number) => createSelector(
+    showsMapSelector,
+    (showsMap) => showsMap[showId]
+);

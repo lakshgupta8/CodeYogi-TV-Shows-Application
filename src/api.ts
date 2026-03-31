@@ -11,5 +11,18 @@ export const fetchShowList = (keyword: string): Promise<Show[]> => {
             console.log(error);
             return [];
         }
-    )
-}
+    );
+};
+
+export const fetchShowDetail = (id: number): Promise<Show> => {
+    return axios.get<Show>(
+        `https://api.tvmaze.com/shows/${id}`
+    ).then(
+        response => response.data
+    ).catch(
+        error => {
+            console.log(error);
+            return {} as Show;
+        }
+    );
+};
