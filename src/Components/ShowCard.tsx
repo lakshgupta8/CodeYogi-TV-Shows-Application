@@ -11,22 +11,22 @@ const placeholderImage = "https://images.unsplash.com/photo-1560169897-fc0cdbdfa
 
 const ShowCard: FC<ShowCardProps> = ({ show }) => {
   return (
-    <div className="bg-neutral-900 border border-neutral-800 shadow-xl m-1 rounded-xl w-full max-w-xs overflow-hidden hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+    <div className="flex flex-col bg-neutral-900 shadow-xl m-1 border border-neutral-800 rounded-xl w-full max-w-xs h-full overflow-hidden hover:scale-105 transition-transform duration-300">
       <img
         src={show.image?.medium || placeholderImage}
         alt={show.name}
-        className="w-full h-80 object-cover border-b border-neutral-800"
+        className="border-neutral-800 border-b w-full h-80 object-cover"
       />
-      <div className="flex flex-col flex-1 justify-between p-5 space-y-4">
+      <div className="flex flex-col flex-1 justify-between space-y-4 p-5">
         <div className="space-y-2">
-          <h2 className="font-bold text-xl text-stone-100 line-clamp-1" title={show.name}>{show.name}</h2>
-          <div className="text-stone-400 text-sm line-clamp-3 prose prose-invert">
+          <h2 className="font-bold text-stone-100 text-xl line-clamp-1" title={show.name}>{show.name}</h2>
+          <div className="text-stone-400 text-sm line-clamp-3">
             {parse(show.summary || "No summary available")}
           </div>
         </div>
         <Link
           to={`/show/${show.id}`}
-          className="flex justify-center items-center py-2.5 px-4 bg-amber-900 hover:bg-amber-800 text-amber-50 rounded-lg w-full font-semibold tracking-wide transition-colors"
+          className="flex justify-center items-center bg-amber-900 hover:bg-amber-800 px-4 py-2.5 rounded-lg w-full font-semibold text-amber-50 tracking-wide transition-colors"
         >
           View Details
         </Link>

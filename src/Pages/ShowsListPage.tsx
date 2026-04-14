@@ -1,21 +1,18 @@
 import { type FC } from "react";
 import SearchBar from "../Components/SearchBar";
 import ShowCard from "../Components/ShowCard";
-import type { Show } from "../Models/shows";
 import { queryChangeAction } from "../Actions/shows";
-import { connect } from "react-redux";
+import { connect, type ConnectedProps } from "react-redux";
 import type { State } from "../store";
-import { showsSelector, querySelector } from "../Selectors/shows";
+import { showsSelector, querySelector, showsLoadingSelector } from "../Selectors/shows";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
-interface ShowListPageProps {
-  shows: Show[];
-  query: string;
-  queryChange: (query: string) => void;
-}
+type ShowListPageProps = ReduxProps
 
 const ShowListPage: FC<ShowListPageProps> = ({
   shows,
   query,
+  loading,
   queryChange
 }) => {
   return (
@@ -35,6 +32,7 @@ const ShowListPage: FC<ShowListPageProps> = ({
           onChange={(e) => queryChange(e.target.value)}
           value={query}
         />
+        {loading && <LoadingSpinner className="ml-2" />}
       </div>
 
       {shows.length === 0 ? (
@@ -58,12 +56,17 @@ const ShowListPage: FC<ShowListPageProps> = ({
 const mapStateToProps = (state: State) => ({
   shows: showsSelector(state),
   query: querySelector(state),
+  loading: showsLoadingSelector(state),
 });
 
 const mapDispatchToProps = {
   queryChange: queryChangeAction,
 };
 
-const ShowListPageWithRedux = connect(mapStateToProps, mapDispatchToProps)(ShowListPage);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type ReduxProps = ConnectedProps<typeof connector>;
+
+const ShowListPageWithRedux = connector(ShowListPage);
 
 export default ShowListPageWithRedux;

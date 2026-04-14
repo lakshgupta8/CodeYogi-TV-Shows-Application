@@ -2,7 +2,7 @@ import { memo } from "react";
 
 const GenrePill = ({ name }: { name: string }) => {
   return (
-    <span className="px-3 py-1 bg-stone-900 border border-stone-700 text-stone-300 text-sm font-medium rounded-full lowercase tracking-wider">
+    <span className="bg-stone-900 px-3 py-1 border border-stone-700 rounded-full font-medium text-stone-300 text-sm tracking-wider">
       {name}
     </span>
   );
