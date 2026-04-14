@@ -1,11 +1,11 @@
 import createSagaMiddleware from "redux-saga";
-import { takeLatest } from "redux-saga/effects";
+import { debounce, takeEvery } from "redux-saga/effects";
 import { LOAD_SHOW_DETAIL, QUERY_CHANGE } from "../Actions/shows";
-import { fetchShowDetailSaga, showsSaga } from "./shows";
+import { fetchShowDetailSaga, fetchShowsSaga } from "./shows";
 
 export const sagaMiddleware = createSagaMiddleware();
 
 export function* rootSaga() {
-    yield takeLatest(QUERY_CHANGE, showsSaga);
-    yield takeLatest(LOAD_SHOW_DETAIL, fetchShowDetailSaga);
+    yield debounce(300, QUERY_CHANGE, fetchShowsSaga);
+    yield takeEvery(LOAD_SHOW_DETAIL, fetchShowDetailSaga);
 }
