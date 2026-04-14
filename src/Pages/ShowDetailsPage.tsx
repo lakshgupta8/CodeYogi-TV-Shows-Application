@@ -7,7 +7,7 @@ import { loadShowDetailAction } from "../Actions/shows";
 import { showsMapSelector } from "../Selectors/shows";
 import CastCard from "../Components/CastCard";
 import GenrePill from "../Components/GenrePill";
-import withRouter, { type WithRouterProps } from "../HOCs/withRouter";
+import withRouter, { type WithRouterProps } from "../hocs/withRouter";
 import LoadingSpinner from "../Components/LoadingSpinner";
 
 type ShowDetailPageProps = ReduxProps & WithRouterProps;
