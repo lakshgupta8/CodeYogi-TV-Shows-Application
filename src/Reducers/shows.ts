@@ -1,6 +1,6 @@
 import { type Action } from "../Actions";
 import { produce } from "immer";
-import { QUERY_CHANGE, SHOWS_LOADED, SHOW_DETAIL_LOADED, LOAD_SHOW_DETAIL } from "../Actions/shows";
+import { QUERY_CHANGE, SHOWS_LOADED, SHOW_DETAIL_LOADED, LOAD_SHOW_DETAIL, SHOW_DETAIL_ERROR } from "../Actions/shows";
 import type { Show } from "../Models/shows";
 import { schema, normalize } from "normalizr";
 
@@ -39,6 +39,12 @@ const showsReducer = (state: State = initialState, action: Action): State => {
         const show = action.payload as Show;
         draft.shows[show.id] = show;
         draft.show_loading[show.id] = false;
+        draft.loading = false;
+      });
+    case SHOW_DETAIL_ERROR:
+      return produce(state, (draft) => {
+        const { showId } = action.payload;
+        draft.show_loading[showId] = false;
         draft.loading = false;
       });
     case LOAD_SHOW_DETAIL:

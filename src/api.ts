@@ -3,41 +3,39 @@ import type { Show, Cast } from "./Models/shows";
 
 const baseUrl = "https://api.tvmaze.com";
 
-export const fetchShowList = (keyword: string): Promise<Show[]> => {
-    return axios.get<{ show: Show }[]>(
-        `${baseUrl}/search/shows?q=${keyword}`
-    ).then(
-        response => response.data.map((item: { show: Show }) => item.show)
-    ).catch(
-        error => {
-            console.log(error);
-            return [];
+export const fetchShows = async (keywordOrId: string | number): Promise<Show[]> => {
+    try {
+        let shows: Show[] = [];
+
+        if (typeof keywordOrId === "string") {
+            const response = await axios.get<{ show: Show }[]>(
+                `${baseUrl}/search/shows?q=${keywordOrId}`
+            );
+            shows = response.data.map((item: { show: Show }) => item.show);
+        } else {
+            // Single show detail fallback
+            const response = await axios.get<Show>(
+                `${baseUrl}/shows/${keywordOrId}`
+            );
+            if (response.data) shows = [response.data];
         }
-    );
+
+        const promises = shows.map(async (show) => {
+            try {
+                const castResponse = await axios.get<Cast[]>(
+                    `${baseUrl}/shows/${show.id}/cast`
+                );
+                show.cast = castResponse.data;
+            } catch (e) {
+                show.cast = [];
+            }
+            return show;
+        });
+
+        return Promise.all(promises);
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
 };
 
-export const fetchShowDetail = (id: number): Promise<Show> => {
-    return axios.get<Show>(
-        `${baseUrl}/shows/${id}`
-    ).then(
-        response => response.data
-    ).catch(
-        error => {
-            console.log(error);
-            return {} as Show;
-        }
-    );
-};
-
-export const fetchShowCast = (id: number): Promise<Cast[]> => {
-    return axios.get<Cast[]>(
-        `${baseUrl}/shows/${id}/cast`
-    ).then(
-        response => response.data
-    ).catch(
-        error => {
-            console.log(error);
-            return [];
-        }
-    );
-}

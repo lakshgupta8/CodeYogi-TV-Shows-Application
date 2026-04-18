@@ -1,8 +1,8 @@
 import { ImSpinner } from "react-icons/im";
 
-const LoadingSpinner = ({ className }: { className?: string }) => {
-  return <div className={`flex justify-center items-center p-2 ${className}`}>
-    <ImSpinner className={`animate-spin text-2xl text-amber-500`} />
+const LoadingSpinner = () => {
+  return <div className="flex justify-center items-center p-2">
+    <ImSpinner className="text-brand text-2xl animate-spin" />
   </div>;
 };
 

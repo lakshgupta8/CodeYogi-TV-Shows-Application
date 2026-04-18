@@ -1,18 +1,28 @@
 import { call, put } from "redux-saga/effects";
-import { fetchShowDetail, fetchShowList, fetchShowCast } from "../api";
+import { fetchShows } from "../api";
 import type { Action } from "../Actions";
-import { showDetailLoadedAction, showsLoadedAction } from "../Actions/shows";
+import { showDetailLoadedAction, showsLoadedAction, showDetailErrorAction } from "../Actions/shows";
 
 export function* fetchShowsSaga(action: Action): Generator<any, any, any> {
-    const shows = yield call(fetchShowList, action.payload);
+    const shows = yield call(fetchShows, action.payload);
     const nextAction = yield call(showsLoadedAction, shows);
     yield put(nextAction);
 }
 
 export function* fetchShowDetailSaga(action: Action): Generator<any, any, any> {
-    const show = yield call(fetchShowDetail, action.payload);
-    const cast = yield call(fetchShowCast, action.payload);
-    show.cast = cast;
-    const nextAction = yield call(showDetailLoadedAction, show);
-    yield put(nextAction);
+    try {
+        const showId = action.payload;
+        const shows = yield call(fetchShows, showId);
+        const show = shows[0];
+        
+        if (!show || !show.id) {
+            yield put(showDetailErrorAction(showId, "Show not found"));
+            return;
+        }
+
+        const nextAction = yield call(showDetailLoadedAction, show);
+        yield put(nextAction);
+    } catch (error) {
+        yield put(showDetailErrorAction(action.payload, "Failed to load show details"));
+    }
 }
