@@ -18,10 +18,10 @@ const ShowListPage: FC<ShowListPageProps> = ({
   return (
     <div className="flex flex-col space-y-10 mt-4 min-h-[60vh]">
       <div className="flex flex-col items-center space-y-6 pt-8 text-center">
-        <h1 className="font-black text-white text-5xl sm:text-7xl tracking-tighter">
-          TV<span className="text-amber-700">SHOWS</span>
+        <h1 className="font-black text-text-primary text-5xl sm:text-7xl tracking-tighter">
+          TV<span className="text-brand">SHOWS</span>
         </h1>
-        <p className="px-4 max-w-2xl text-stone-400 text-lg leading-relaxed">
+        <p className="px-4 max-w-2xl text-text-muted text-lg leading-relaxed">
           Search through thousands of shows, explore cast details,
           and find your next obsession.
         </p>
@@ -32,13 +32,13 @@ const ShowListPage: FC<ShowListPageProps> = ({
           onChange={(e) => queryChange(e.target.value)}
           value={query}
         />
-        {loading && <LoadingSpinner className="ml-2" />}
+        {loading && <LoadingSpinner />}
       </div>
 
       {shows.length === 0 ? (
         <div className="flex flex-col justify-center items-center space-y-4 pt-10">
-          <div className="bg-amber-900/50 mb-2 rounded-full w-16 md:w-24 h-1"></div>
-          <p className="font-medium text-stone-500 italic">
+          <div className="mb-2 rounded-full w-16 md:w-24 h-1 bg-accent-bg/50"></div>
+          <p className="text-border-active font-medium italic">
             {query.length > 0 ? "No shows found matching your query..." : "Begin typing to discover shows."}
           </p>
         </div>

@@ -22,6 +22,13 @@ export const showDetailLoadedAction: ActionCreator<Show> = (show: Show) => ({
     payload: show
 });
 
+export const SHOW_DETAIL_ERROR = "SHOW_DETAIL_ERROR";
+
+export const showDetailErrorAction: ActionCreator<{ showId: number, error: string }> = (showId: number, error: string) => ({
+    type: SHOW_DETAIL_ERROR,
+    payload: { showId, error }
+});
+
 export const LOAD_SHOW_DETAIL = "LOAD_SHOW_DETAIL";
 
 export const loadShowDetailAction: ActionCreator<number> = (showId: number) => ({
