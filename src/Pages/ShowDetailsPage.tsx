@@ -2,8 +2,8 @@ import { useEffect, type FC } from "react";
 import { connect, type ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
-import type { State } from "../store";
-import { loadShowDetailAction } from "../Actions/shows";
+import { loadDetailAction } from "../Slices/shows";
+import type { RootState } from "../store";
 import { showsMapSelector } from "../Selectors/shows";
 import CastGroup from "../Components/CastGroup";
 import GenrePill from "../Components/GenrePill";
@@ -15,7 +15,7 @@ type ShowDetailPageProps = ReduxProps & WithRouterProps;
 const ShowDetailPage: FC<ShowDetailPageProps> = ({
   show,
   params,
-  showLoading,
+  loading,
   loadShowDetail,
 }) => {
   const showId = +params.showId;
@@ -23,8 +23,6 @@ const ShowDetailPage: FC<ShowDetailPageProps> = ({
   useEffect(() => {
     loadShowDetail(showId);
   }, [showId]);
-
-  const isLoading = showLoading[showId];
 
   return (
     <div className="flex flex-col space-y-8 mt-6 pb-10 animate-fade-in">
@@ -36,11 +34,11 @@ const ShowDetailPage: FC<ShowDetailPageProps> = ({
         </button>
       </div>
 
-      {isLoading && <div className="flex justify-center items-center">
+      {loading && <div className="flex justify-center items-center">
         <LoadingSpinner />
       </div>}
 
-      {!isLoading && show &&
+      {!loading && show &&
         <div className="flex md:flex-row flex-col items-start gap-8">
           <img
             src={show.image?.medium || "http://images.unsplash.com/vector-1769004080350-422140cb8920?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
@@ -53,7 +51,7 @@ const ShowDetailPage: FC<ShowDetailPageProps> = ({
               <h2 className="font-extrabold text-text-primary text-4xl tracking-tight">{show.name}</h2>
 
               <div className="flex flex-wrap gap-2">
-                {show.genres.map((genre) => (
+                {show.genres.map((genre: string) => (
                   <GenrePill name={genre} key={genre} />
                 ))}
               </div>
@@ -78,7 +76,7 @@ const ShowDetailPage: FC<ShowDetailPageProps> = ({
         </div>
       }
 
-      {!isLoading && !show && (
+      {!loading && !show && (
         <div className="py-20 text-center">
           <h2 className="font-bold text-text-primary text-2xl">Show not found</h2>
           <p className="mt-2 text-text-muted">The show you're looking for doesn't exist or there was an error loading it.</p>
@@ -88,16 +86,16 @@ const ShowDetailPage: FC<ShowDetailPageProps> = ({
   );
 };
 
-const mapStateToProps = (state: State, ownProps: any) => {
+const mapStateToProps = (state: RootState, ownProps: any) => {
   const showId: number = +ownProps.params.showId;
   return {
     show: showsMapSelector(state)[showId],
-    showLoading: state.shows.show_loading,
+    loading: state.shows.loading,
   };
 };
 
 const mapDispatchToProps = {
-  loadShowDetail: loadShowDetailAction,
+  loadShowDetail: loadDetailAction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
