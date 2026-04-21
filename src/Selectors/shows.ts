@@ -1,11 +1,11 @@
 import { createSelector } from "reselect";
-import type { State } from "../store";
+import type { RootState } from "../store";
 
-const showsStateSelector = (state: State) => state.shows;
+const showsStateSelector = (state: RootState) => state.shows;
 
 export const showsMapSelector = createSelector(
     showsStateSelector,
-    (state) => state.shows
+    (state) => state.entities
 );
 
 export const queryShowsMapSelector = createSelector(

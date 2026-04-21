@@ -1,11 +1,12 @@
 import { type FC } from "react";
 import SearchBar from "../Components/SearchBar";
 import ShowCard from "../Components/ShowCard";
-import { queryChangeAction } from "../Actions/shows";
+import { queryChangeAction } from "../Slices/shows";
 import { connect, type ConnectedProps } from "react-redux";
-import type { State } from "../store";
+import type { RootState } from "../store";
 import { showsSelector, querySelector, showsLoadingSelector } from "../Selectors/shows";
 import LoadingSpinner from "../Components/LoadingSpinner";
+import type { Show } from "../Models/shows";
 
 type ShowListPageProps = ReduxProps
 
@@ -44,7 +45,7 @@ const ShowListPage: FC<ShowListPageProps> = ({
         </div>
       ) : (
         <div className="justify-items-center gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-4 animate-fade-in">
-          {shows.map((show) => (
+          {shows.map((show: Show) => (
             <ShowCard key={show.id} show={show} />
           ))}
         </div>
@@ -53,7 +54,7 @@ const ShowListPage: FC<ShowListPageProps> = ({
   );
 }
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: RootState) => ({
   shows: showsSelector(state),
   query: querySelector(state),
   loading: showsLoadingSelector(state),
